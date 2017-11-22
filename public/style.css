@@ -1,0 +1,7 @@
+.navbar-header {
+  width: 100%;
+}
+
+.dropdown-toggle, .navbar-brand {
+  font-size: 2em !important;
+}
