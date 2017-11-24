@@ -14,14 +14,18 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-//Models/tables
+// Models/tables
 db.User = require('./user')(sequelize, Sequelize);
-// db.calendars = require('./calendar.js')(sequelize, Sequelize);
+db.Location = require('./location')(sequelize, Sequelize);
+db.Profile = require('./profile')(sequelize, Sequelize);
 
 
-//Relations
-// db.calendars.belongsTo(db.users, { foreignKey: 'userId', as: 'user'});
-// db.users.hasMany(db.calendars, { foreignKey: 'userId', as: 'calendars' });
+// Relations
+db.Profile.belongsTo(db.User);
+db.User.hasOne(db.Profile);
+
+db.Location.hasMany(db.Profile);
+db.Profile.belongsTo(db.Location);
 
 
 module.exports = db;

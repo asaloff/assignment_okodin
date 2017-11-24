@@ -1,0 +1,33 @@
+<section class="clearfix">
+  <img class="profile-pic pull-left" src={{user.Profile.img}}>
+  <h2><u>{{user.username}}</u></h2>
+  <h4>{{user.Profile.age}} years old, lives in "{{user.Profile.Location.city}}"</h4>
+  <br>
+</section>
+<hr>
+<section class="col-sm-4 pull-right">
+  <h5>Basic Info</h5>
+  <section>
+    <ul class="basic-info">
+      <li>{{user.Profile.sex}}</li>
+      <li>{{user.Profile.relationshipStatus}}</li>
+      <li>{{user.Profile.height}}</li>
+      <li>{{user.Profile.bodyType}}</li>
+      <li>Graduated from {{user.Profile.schooling}}</li>
+      <li>{{user.Profile.children}} children</li>
+      <li>{{user.Profile.interest}}</li>
+    </ul>
+  </section>
+</section>
+<section class="col-sm-8 pull-left">
+  <h3>About Me</h3>
+  <p>{{user.Profile.about}}</p>
+  <h3>Talents</h3>
+  <p>{{user.Profile.talents}}</p>
+  <h3>Favorite Things</h3>
+  <p>{{user.Profile.favoriteThings}}</p>
+  <h3>Why You Should Message Me</h3>
+  <p>{{user.Profile.messageReason}}</p>
+  <button id="message-me-button" class="btn btn-primary btn-lg">Message Me!</button>
+</section>
+

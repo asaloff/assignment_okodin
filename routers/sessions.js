@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
       }
 
       res.cookie('currentUser', user.id);
-      res.redirect('/profiles');
+      res.redirect(`/profiles/${ user.id }`);
     })
     .catch(e => {
       if (e.message) {
