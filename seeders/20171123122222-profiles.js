@@ -17,7 +17,7 @@ module.exports = {
       }
     }
 
-    var bodyTypes = ["skinny", "lean", "average", "muscular", "a few extra pounds", "a complete whale"];
+    var bodyTypes = ["Skinny", "Lean", "Average", "Muscular", "A few extra pounds", "A complete whale"];
     var schools = ["Viking U", "Thors Hammer", "University of Narwal", "Odin State"];
     var interests = ["Battles lots of evil", "FOOOOD", "Chasing dragons", "Reading by the fire", "Cooking up a nice goat"];
 

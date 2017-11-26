@@ -15,7 +15,12 @@ router.get('/:id', (req, res) => {
   })
     .then(user => {
       if (!user) throw "User not found";
-      res.render('profiles/show', { user });
+
+      // check for current user
+      var isCurrentUser = false;
+      if (res.locals.currentUser.id == user.id) isCurrentUser = true;
+
+      res.render('profiles/show', { user, isCurrentUser });
     })
     .catch(e => res.status(500).send(e.stack));
 });

@@ -55,11 +55,13 @@ app.use(authRedirect);
 const signup = require('./routers/sign_up');
 const sessions = require('./routers/sessions');
 const profiles = require('./routers/profiles');
+const search = require('./routers/search');
 
 app.use('/', signup);
 app.use('/sign_up', signup);
 app.use('/sessions', sessions);
 app.use('/profiles', profiles);
+app.use('/search', search);
 
 
 // Template Engine

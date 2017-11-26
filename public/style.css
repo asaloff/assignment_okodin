@@ -18,3 +18,33 @@ ul.basic-info {
 #message-me-button {
   margin-bottom: 20px;
 }
+
+.search-img {
+  width: 200px;
+}
+
+#search-nav {
+  margin-bottom: 30px;
+}
+
+#search-form .bottom-room {
+  margin-bottom: 5px;
+}
+
+#location-finder .form-control {
+  width: initial;
+  display: initial;
+}
+
+#search-btn {
+  clear: both;
+  margin-top: 20px;
+}
+
+.clear {
+  clear: both;
+}
+
+.tab-content {
+  padding: 30px 0 20px 0;
+}

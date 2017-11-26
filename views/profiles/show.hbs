@@ -28,6 +28,8 @@
   <p>{{user.Profile.favoriteThings}}</p>
   <h3>Why You Should Message Me</h3>
   <p>{{user.Profile.messageReason}}</p>
-  <button id="message-me-button" class="btn btn-primary btn-lg">Message Me!</button>
+  {{#unless isCurrentUser}}
+    <button id="message-me-button" class="btn btn-primary btn-lg">Message Me!</button>
+  {{/unless}}
 </section>
 

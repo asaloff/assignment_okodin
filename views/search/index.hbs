@@ -1,0 +1,96 @@
+<h1 class="text-center"><u>Viking Search</u></h1>
+<div class="col-sm-12" id="search-nav">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#basics">Basics</a></li>
+    <li><a data-toggle="tab" href="#location">Location</a></li>
+    <li><a data-toggle="tab" href="#misc">Misc</a></li>
+    <li><a data-toggle="tab" href="#sort">Sort</a></li>
+  </ul>
+
+  <form id="search-form" action="/search" method="POST">
+    <div class="tab-content col-sm-12">
+      <div id="basics" class="tab-pane fade in active">
+        <div class="form-group pull-left col-sm-2">
+          <input type="radio" name="user[profile][sex]" value="male"> Male</input><br>
+          <input type="radio" name="user[profile][sex]" value="female"> Female</input>
+        </div>
+
+        <div class="form-group pull-left col-sm-3">
+          <input name="user[profile][minAge]" type="number", placeholder="Minimum Age" class="form-control bottom-room">
+          <input name="user[profile][maxAge]" type="number", placeholder="Maximum Age" class="form-control">
+        </div>
+
+        <div class="form-group pull-left col-sm-3">
+          <select class="heights form-control bottom-room" name="user[profile][minHeight]">
+            <option selected="true" disabled="disabled">Minimum Height</option>
+          </select>
+          <select class="heights form-control" name="user[profile][maxHeight]">
+            <option selected="true" disabled="disabled">Maximum Height</option>
+          </select>
+        </div>
+
+        <div class="form-group pull-left col-sm-3">
+          <select id="bodytype" name="user[profile][bodyType]" class="form-control">
+            <option selected="true" disabled="disabled">Body Type</option>
+          </select>
+        </div>
+      </div>
+      <div id="location" class="tab-pane fade">
+        <p id="location-finder">
+          Within <input type="number" name="user[profile][location][distance]" class="form-control" value="0"> miles of
+            <select id="city" name="user[profile][location][city]" class="form-control">
+              <option selected="true" disabled="disabled">City</option>
+            </select>
+        </p>
+      </div>
+      <div id="misc" class="tab-pane fade">
+        <div class="form-group pull-left col-sm-3">
+          <select id="school" name="user[profile][school]" class="form-control">
+            <option selected="true" disabled="disabled">School</option>
+          </select>
+        </div>
+
+        <div class="form-group pull-left col-sm-3">
+          <select id="children" name="user[profile][children]" class="form-control">
+            <option selected="true" disabled="disabled"># of Children</option>
+          </select>
+        </div>
+
+        <div class="form-group pull-left col-sm-3">
+          <select id="interest" name="user[profile][interest]" class="form-control">
+            <option selected="true" disabled="disabled">Interest</option>
+          </select>
+        </div>
+      </div>
+      <div id="sort" class="tab-pane fade">
+        <div class="form-group pull-left col-sm-3">
+          <select id="sortBy" name="user[profile][sort]" class="form-control">
+            <option selected="true" disabled="disabled">Sort By</option>
+            <option>Distance</option>
+            <option>Age</option>
+            <option>Last Login</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button type="submit" id="search-btn" class="btn btn-primary clear">Search</button>
+  </form>
+</div>
+
+<hr class="clear">
+{{#if users}}
+  {{#each users as |user|}}
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="{{user.Profile.img}}" class="search-img">
+        <div class="caption text-center">
+          <h3><a href="/profiles/{{user.id}}">{{user.username}}</a></h3>
+          <a href="#">Like?</a>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+{{else}}
+  <h4>No Results - Use the form above to search</h4>
+{{/if}}
+<script type="text/javascript" src="/formSetup.js"></script>
