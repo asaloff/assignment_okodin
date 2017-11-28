@@ -43,7 +43,6 @@
           Within <input type="number" name="profile[location][distance]" class="form-control" placeholder="0"> miles of
             <select id="city" name="profile[location][city]" class="form-control">
               <option selected="true" disabled="disabled">City</option>
-              {{debug location}}
               {{#each locations as |location|}}
                 <option value="{{location.city}}::{{location.distance}}">{{location.city}}</option>
               {{/each}}
