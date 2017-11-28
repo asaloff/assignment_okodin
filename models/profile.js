@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     age: {
       type: DataTypes.INTEGER
     },
-    sex: {
+    gender: {
       type: DataTypes.STRING
     },
     relationshipStatus: {
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     bodyType: {
       type: DataTypes.STRING
     },
-    schooling: {
+    school: {
       type: DataTypes.STRING
     },
     children: {

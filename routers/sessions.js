@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const models = require('../models');
 const { User } = models;
+const timeHelper = require('../helpers/timeHelper');
 
 router.get('/new', (req, res) => {
   res.render('sessions/new', { notLoggedIn: true });
@@ -17,6 +18,7 @@ router.post('/', (req, res) => {
       }
 
       res.cookie('currentUser', user.id);
+      User.update({ lastLogin: timeHelper.getTime() }, { where: { id: user.id } });
       res.redirect(`/profiles/${ user.id }`);
     })
     .catch(e => {

@@ -7,68 +7,71 @@
     <li><a data-toggle="tab" href="#sort">Sort</a></li>
   </ul>
 
-  <form id="search-form" action="/search" method="POST">
+  <form id="search-form" action="/search" method="GET">
     <div class="tab-content col-sm-12">
       <div id="basics" class="tab-pane fade in active">
         <div class="form-group pull-left col-sm-2">
-          <input type="radio" name="user[profile][sex]" value="male"> Male</input><br>
-          <input type="radio" name="user[profile][sex]" value="female"> Female</input>
+          <input type="radio" name="profile[gender]" value="male"> Male</input><br>
+          <input type="radio" name="profile[gender]" value="female"> Female</input>
         </div>
 
         <div class="form-group pull-left col-sm-3">
-          <input name="user[profile][minAge]" type="number", placeholder="Minimum Age" class="form-control bottom-room">
-          <input name="user[profile][maxAge]" type="number", placeholder="Maximum Age" class="form-control">
+          <input name="profile[minAge]" type="number", placeholder="Minimum Age" class="form-control bottom-room">
+          <input name="profile[maxAge]" type="number", placeholder="Maximum Age" class="form-control">
         </div>
 
         <div class="form-group pull-left col-sm-3">
-          <select class="heights form-control bottom-room" name="user[profile][minHeight]">
+          <select class="heights form-control bottom-room" name="profile[minHeight]">
             <option selected="true" disabled="disabled">Minimum Height</option>
           </select>
-          <select class="heights form-control" name="user[profile][maxHeight]">
+          <select class="heights form-control" name="profile[maxHeight]">
             <option selected="true" disabled="disabled">Maximum Height</option>
           </select>
         </div>
 
         <div class="form-group pull-left col-sm-3">
-          <select id="bodytype" name="user[profile][bodyType]" class="form-control">
+          <select id="bodytype" name="profile[bodyType]" class="form-control">
             <option selected="true" disabled="disabled">Body Type</option>
           </select>
         </div>
       </div>
       <div id="location" class="tab-pane fade">
         <p id="location-finder">
-          Within <input type="number" name="user[profile][location][distance]" class="form-control" value="0"> miles of
-            <select id="city" name="user[profile][location][city]" class="form-control">
+          Within <input type="number" name="profile[location][distance]" class="form-control" placeholder="0"> miles of
+            <select id="city" name="profile[location][city]" class="form-control">
               <option selected="true" disabled="disabled">City</option>
+              {{#each locations as |location|}}
+                <option value="{{location.distance}}">{{location.city}}</option>
+              {{/each}}
             </select>
         </p>
       </div>
       <div id="misc" class="tab-pane fade">
         <div class="form-group pull-left col-sm-3">
-          <select id="school" name="user[profile][school]" class="form-control">
+          <select id="school" name="profile[school]" class="form-control">
             <option selected="true" disabled="disabled">School</option>
           </select>
         </div>
 
         <div class="form-group pull-left col-sm-3">
-          <select id="children" name="user[profile][children]" class="form-control">
-            <option selected="true" disabled="disabled"># of Children</option>
+          <select id="children" name="profile[maxChildren]" class="form-control">
+            <option selected="true" disabled="disabled">Max # of Children</option>
           </select>
         </div>
 
         <div class="form-group pull-left col-sm-3">
-          <select id="interest" name="user[profile][interest]" class="form-control">
+          <select id="interest" name="profile[interest]" class="form-control">
             <option selected="true" disabled="disabled">Interest</option>
           </select>
         </div>
       </div>
       <div id="sort" class="tab-pane fade">
         <div class="form-group pull-left col-sm-3">
-          <select id="sortBy" name="user[profile][sort]" class="form-control">
+          <select id="sortBy" name="profile[sort]" class="form-control">
             <option selected="true" disabled="disabled">Sort By</option>
-            <option>Distance</option>
-            <option>Age</option>
-            <option>Last Login</option>
+            <option value="distance">Distance</option>
+            <option value="age">Age</option>
+            <option value="lastLogin">Last Login</option>
           </select>
         </div>
       </div>
@@ -78,13 +81,13 @@
 </div>
 
 <hr class="clear">
-{{#if users}}
-  {{#each users as |user|}}
+{{#if profiles}}
+  {{#each profiles as |profile|}}
     <div class="col-sm-6 col-md-4">
       <div class="thumbnail">
-        <img src="{{user.Profile.img}}" class="search-img">
+        <img src="{{profile.img}}" class="search-img">
         <div class="caption text-center">
-          <h3><a href="/profiles/{{user.id}}">{{user.username}}</a></h3>
+          <h3><a href="/profiles/{{profile.User.id}}">{{profile.User.username}}</a></h3>
           <a href="#">Like?</a>
         </div>
       </div>

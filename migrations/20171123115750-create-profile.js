@@ -22,7 +22,7 @@ module.exports = {
       age: {
         type: Sequelize.INTEGER
       },
-      sex: {
+      gender: {
         type: Sequelize.STRING
       },
       relationshipStatus: {
@@ -34,7 +34,7 @@ module.exports = {
       bodyType: {
         type: Sequelize.STRING
       },
-      schooling: {
+      school: {
         type: Sequelize.STRING
       },
       children: {

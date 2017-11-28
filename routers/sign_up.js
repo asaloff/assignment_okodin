@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
     .then(user => {
       res.cookie('currentUser', user.id);
       req.flash('success', `Congratulations!, you have signed up successfully. Don't forget to update your profile`);
-      res.redirect('/profiles');
+      res.redirect(`/profiles/${ user.id }`);
     })
     .catch(e => {
       if (e.errors) {

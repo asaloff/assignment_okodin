@@ -15,14 +15,6 @@ $(document).ready(() => {
     }));
   }
 
-  const cities = getCities();
-  for (let city of cities) {
-    $("select#city").append($('<option>', {
-      value: city,
-      text: city
-    }));
-  }
-
   const schools = ["Viking U", "Thors Hammer", "University of Narwal", "Odin State"];
   for (let school of schools) {
     $("select#school").append($('<option>', {
@@ -55,33 +47,4 @@ const getHeights = () => {
     }
   }
   return heights;
-};
-
-const getCities = () => {
-  return [
-      "Aalborg",
-      "Aarhus",
-      "Aggersborg",
-      "Alaborg",
-      "Alrekstad",
-      "Altes Lager",
-      "Annagassan",
-      "Arklow",
-      "Bardy-Świelubie",
-      "Berezan Island",
-      "Bergen",
-      "Birka",
-      "Borgeby Castle",
-      "Borrering",
-      "Brattahlíð",
-      "Cape Arkona",
-      "Cork",
-      "Five Boroughs of the Danelaw",
-      "Dierkow",
-      "Dorestad",
-      "Douglas, Isle of Man",
-      "Dublin",
-      "Dùn Èistean",
-      "Dyrnæs"
-    ];
 };

@@ -5,10 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine",
     "debug": "node debug app",
-    "seed": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
-    "seeds": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
+    "seed": "sequelize db:migrate:undo:all && sequelize db:migrate:undo:all --env 'test' && sequelize db:migrate && sequelize db:migrate --env 'test' && sequelize db:seed:all",
+    "seeds": "sequelize db:migrate:undo:all && sequelize db:migrate:undo:all --env 'test' && sequelize db:migrate && sequelize db:migrate --env 'test' && sequelize db:seed:all",
     "c": "node repl",
     "console": "node repl"
   },
@@ -37,5 +37,8 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.19.0",
     "sequelize-cli": "^3.1.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.8.0"
   }
 }
