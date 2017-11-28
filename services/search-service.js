@@ -7,6 +7,9 @@ const SearchService = {};
 
 SearchService.findProfiles = query => {
   return new Promise((resolve, reject) => {
+    let queryString = '';
+    if (!emptyQuery(query)) queryString += 'Searched for:';
+
     let profileQuery = {};
     profileQuery.where = {};
 
@@ -28,12 +31,23 @@ SearchService.findProfiles = query => {
 
     // gender query
     let gender = query.profile.gender;
-    if (gender && gender !== '') profileQuery.where.gender = gender;
+    if (gender && gender !== '') {
+      profileQuery.where.gender = gender;
+      queryString += ` a '${ gender }'`;
+    }
 
     // age query
     if (minAge || maxAge) profileQuery.where.age = {};
-    if (minAge) profileQuery.where.age.$gte = minAge;
-    if (maxAge) profileQuery.where.age.$lte = maxAge;
+
+    if (minAge) {
+      profileQuery.where.age.$gte = minAge;
+      queryString += ` minimum age: '${ minAge }'`;
+    }
+
+    if (maxAge) {
+      profileQuery.where.age.$lte = maxAge;
+      queryString += ` maximum age: '${ maxAge }'`;
+    }
 
     // height query
     let minHeightIndex = heights.indexOf(minHeight);
@@ -42,58 +56,99 @@ SearchService.findProfiles = query => {
 
     if (minHeight && maxHeight) {
       profileQuery.where.height.$in = heights.slice(minHeightIndex, maxHeightIndex + 1);
+      queryString += ` minimum height: '${ minHeight }' maximum height: '${ maxHeight }'`;
     } else if (minHeight) {
       profileQuery.where.height.$in = heights.slice(minHeightIndex);
+      queryString += ` minimum height: '${ minHeight }'`;
     } else if (maxHeight) {
       profileQuery.where.height.$in = heights.slice(0, maxHeightIndex + 1);
+      queryString += ` maximum height: '${ maxHeight }'`;
     }
 
     // bodyType query
     let bodyType = query.profile.bodyType;
-    if (bodyType && bodyType !== '') profileQuery.where.bodyType = bodyType;
+    if (bodyType && bodyType !== '') {
+      profileQuery.where.bodyType = bodyType;
+      queryString += ` body type: '${ bodyType }'`;
+    }
 
     // school query
     let school = query.profile.school;
-    if (school && school !== '') profileQuery.where.school = school;
+    if (school && school !== '') {
+      profileQuery.where.school = school;
+      queryString += ` graduated from: '${ school }'`;
+    }
 
     // maxChildren query
     let maxChildren = query.profile.maxChildren;
     if (maxChildren === 0 || maxChildren) {
       profileQuery.where.children = {};
       profileQuery.where.children.$lte = maxChildren;
+      queryString += ` maximum children: '${ maxChildren }'`;
     }
 
     // interest query
     let interest = query.profile.interest;
-    if (interest && interest !== '') profileQuery.where.interest = interest;
+    if (interest && interest !== '') {
+      profileQuery.where.interest = interest;
+      queryString += ` interested in: '${ interest }'`;
+    }
 
     // location query
     let distance = parseInt(query.profile.location.distance);
-    let city = parseInt(query.profile.location.city);
+    let city = query.profile.location.city;
+    let cityInfo, cityName, cityDistance;
+
+    if (city) {
+      cityInfo = query.profile.location.city.split('::');
+      cityName = cityInfo[0];
+      cityDistance = parseInt(cityInfo[1]);
+    }
 
     if (distance && !city) throw new Error('Distance provided without city');
-    if (city && !distance) throw new Error('City provided without distance');
+    if (city && !distance && distance !== 0) throw new Error('City provided without distance');
 
-    if (distance && city) {
+    if ((distance || distance === 0) && city) {
       profileQuery.include[1].where = {
         distance: {
-          $gte: city - distance,
-          $lte: city + distance
+          $gte: cityDistance - distance,
+          $lte: cityDistance + distance
         }
       };
+      queryString += ` within ${ distance } miles of '${ cityName }'`;
     }
 
     // sort by
     let sortBy = query.profile.sort;
-    if (sortBy === 'distance') profileQuery.order = [ [ { model: Location }, 'distance', 'ASC'] ];
-    if (sortBy === 'age') profileQuery.order = [ ['age', 'ASC'] ];
-    if (sortBy === 'lastLogin') profileQuery.order = [ [ { model: User }, 'lastLogin', 'DESC'] ];
+    if (sortBy === 'distance') {
+      profileQuery.order = [ [ { model: Location }, 'distance', 'ASC'] ];
+      queryString += ' sorted by distance';
+    }
+
+    if (sortBy === 'age') {
+      profileQuery.order = [ ['age', 'ASC'] ];
+      queryString += ' sorted by age';
+    }
+
+    if (sortBy === 'lastLogin') {
+      profileQuery.order = [ [ { model: User }, 'lastLogin', 'DESC'] ];
+      queryString += ' sorted by last login';
+    }
 
     Profile.findAll(profileQuery)
       .then(profiles => {
-        resolve(profiles);
+        let results = { profiles, queryString };
+        resolve(results);
       });
   });
+};
+
+const emptyQuery = (query) => {
+  if (query === { "profile": { "minAge": "", "maxAge": "", "location": { "distance": "" } } }) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 module.exports = SearchService;

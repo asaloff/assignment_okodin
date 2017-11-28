@@ -1,4 +1,7 @@
-<h1 class="text-center"><u>Viking Search</u></h1>
+<h3 class="text-center"><u>Viking Search</u></h3>
+{{#if queryString}}
+  <h4 class="text-center">{{queryString}}</h4>
+{{/if}}
 <div class="col-sm-12" id="search-nav">
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#basics">Basics</a></li>
@@ -40,8 +43,9 @@
           Within <input type="number" name="profile[location][distance]" class="form-control" placeholder="0"> miles of
             <select id="city" name="profile[location][city]" class="form-control">
               <option selected="true" disabled="disabled">City</option>
+              {{debug location}}
               {{#each locations as |location|}}
-                <option value="{{location.distance}}">{{location.city}}</option>
+                <option value="{{location.city}}::{{location.distance}}">{{location.city}}</option>
               {{/each}}
             </select>
         </p>

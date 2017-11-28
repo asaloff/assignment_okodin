@@ -30,7 +30,8 @@ describe("SearchService", () => {
       const profile = await Profile.create({ UserId: user1.id });
 
       SearchService.findProfiles(query)
-        .then(profiles => {
+        .then(results => {
+          let { profiles } = results;
           expect(profiles[0].id).toEqual(profile.id);
           done();
         });
@@ -44,7 +45,8 @@ describe("SearchService", () => {
         const femaleProfile = await Profile.create({ UserId: user2.id, gender: "female" });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(maleProfile.id);
             done();
@@ -58,7 +60,8 @@ describe("SearchService", () => {
         const olderProfile = await Profile.create({ UserId: user2.id, age: 32 });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(olderProfile.id);
             done();
@@ -72,7 +75,8 @@ describe("SearchService", () => {
         const olderProfile = await Profile.create({ UserId: user2.id, age: 41 });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(youngProfile.id);
             done();
@@ -84,7 +88,8 @@ describe("SearchService", () => {
         query.profile.maxAge = 35;
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             done.fail('min age was allowed to be greater than max age');
           })
           .catch(e => {
@@ -101,7 +106,8 @@ describe("SearchService", () => {
         const olderProfile = await Profile.create({ UserId: user2.id, age: 38 });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(olderProfile.id);
             done();
@@ -115,7 +121,8 @@ describe("SearchService", () => {
         const tallProfile = await Profile.create({ UserId: user2.id, height: "5' 10\"" });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(tallProfile.id);
             done();
@@ -129,7 +136,8 @@ describe("SearchService", () => {
         const tallProfile = await Profile.create({ UserId: user2.id, height: "6' 2\"" });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(shortProfile.id);
             done();
@@ -141,7 +149,8 @@ describe("SearchService", () => {
         query.profile.maxHeight = "5' 1\"";
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             done.fail('min height was allowed to be greater than max height');
           })
           .catch(e => {
@@ -158,7 +167,8 @@ describe("SearchService", () => {
         const tallProfile = await Profile.create({ UserId: user2.id, height: "5' 5\"" });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(tallProfile.id);
             done();
@@ -172,7 +182,8 @@ describe("SearchService", () => {
         const largeProfile = await Profile.create({ UserId: user2.id, bodyType: "A complete whale" });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(leanProfile.id);
             done();
@@ -186,7 +197,8 @@ describe("SearchService", () => {
         const odinProfile = await Profile.create({ UserId: user2.id, school: "Odin State" });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(thorProfile.id);
             done();
@@ -200,7 +212,8 @@ describe("SearchService", () => {
         const childrenProfile = await Profile.create({ UserId: user2.id, children: 3 });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(noChildrenProfile.id);
             done();
@@ -214,7 +227,8 @@ describe("SearchService", () => {
         const dragonProfile = await Profile.create({ UserId: user2.id, interest: "Chasing dragons" });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(foodyProfile.id);
             done();
@@ -227,7 +241,8 @@ describe("SearchService", () => {
         query.profile.location.distance = "2";
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             done.fail('did not throw error for distance without city');
           })
           .catch(e => {
@@ -241,7 +256,8 @@ describe("SearchService", () => {
         query.profile.location.city = "2";
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             done.fail('did not throw error for city without distance');
           })
           .catch(e => {
@@ -252,7 +268,7 @@ describe("SearchService", () => {
 
       it("returns profiles within the correct distance of the city", async (done) => {
         query.profile.location.distance = "1";
-        query.profile.location.city = "4";
+        query.profile.location.city = "Alrekstad::4";
 
         let city1 = await Location.create({ distance: 5, city: 'Aalborg' });
         let city2 = await Location.create({ distance: 0, city: 'Borrering' });
@@ -260,7 +276,8 @@ describe("SearchService", () => {
         let farProfile = await Profile.create({ UserId: user2.id, LocationId: city2.id });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles.length).toEqual(1);
             expect(profiles[0].id).toEqual(closeProfile.id);
             done();
@@ -280,7 +297,8 @@ describe("SearchService", () => {
         let profile3 = await Profile.create({ UserId: user3.id, LocationId: city3.id });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles[0].id).toEqual(profile3.id);
             expect(profiles[1].id).toEqual(profile1.id);
             expect(profiles[2].id).toEqual(profile2.id);
@@ -296,7 +314,8 @@ describe("SearchService", () => {
         let profile3 = await Profile.create({ UserId: user3.id, age: 20 });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles[0].id).toEqual(profile1.id);
             expect(profiles[1].id).toEqual(profile3.id);
             expect(profiles[2].id).toEqual(profile2.id);
@@ -315,7 +334,8 @@ describe("SearchService", () => {
         let profile3 = await Profile.create({ UserId: user3.id });
 
         SearchService.findProfiles(query)
-          .then(profiles => {
+          .then(results => {
+            let { profiles } = results;
             expect(profiles[0].id).toEqual(profile2.id);
             expect(profiles[1].id).toEqual(profile3.id);
             expect(profiles[2].id).toEqual(profile1.id);

@@ -9,16 +9,14 @@ router.get('/', async (req, res) => {
 
   if (req.query.profile) {
     searchService.findProfiles(req.query)
-
-    // add query string
-
-      .then(profiles => {
-        res.render('search/index', { profiles, locations });
+      .then((results) => {
+        let { profiles, queryString } = results;
+        res.render('search/index', { profiles, locations, queryString });
       })
       .catch(e => {
         if (e.message) {
           req.flash('error', e.message);
-          res.render('search/index');
+          res.render('search/index', { locations });
         } else {
           res.status(500).send(e.stack);
         }
