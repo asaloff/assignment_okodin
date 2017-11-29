@@ -1,0 +1,108 @@
+<form class="form" action="/profiles/{{user.id}}" method="POST">
+  <section class="clearfix">
+    <button type="submit" class="btn btn-primary pull-right" id="profile-save">Save</button>
+    <img class="profile-pic pull-left" src={{user.Profile.img}}>
+    <div class="form-group">
+      <label for="user[username]">Username</label>
+      <input type="text" name="user[username]" value="{{user.username}}" class="form-control form-control-regular">
+    </div>
+
+    <div class="form-group">
+      <label for="user[email]">Email</label>
+      <input type="email" name="user[email]" value="{{user.email}}" class="form-control form-control-regular">
+    </div>
+
+    <div class="form-group">
+      <label for="user[age]">Age</label>
+      <input type="number" name="user[profile][age]" value="{{user.Profile.age}}" class="form-control form-control-regular">
+
+      <label for="user[profile][LocationId]">Lives in</label>
+       <select id="city" name="user[profile][LocationId]" class="form-control form-control-regular">
+         <option disabled="disabled" selected>City</option>
+        {{#each locations as |location|}}
+          <option value="{{location.id}}" {{matchForSelect ../user.Profile.Location.city location.city}}>{{location.city}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <br>
+  </section>
+  <hr>
+  <section class="col-sm-4 pull-right">
+    <h5>Basic Info</h5>
+    <section>
+      <ul class="basic-info">
+
+        <li>
+          <div class="form-group">
+            <label for="user[profile][gender]">Gender</label>
+            <select name="user[profile][gender]" class="form-control form-control-regular">
+              <option value="male" {{matchForSelect user.Profile.gender 'male'}}>Male</option>
+              <option value="female" {{matchForSelect user.Profile.gender 'female'}}>Female</option>
+            </select>
+          </div>
+        </li>
+
+        <li>
+          <div class="form-group">
+            <div id="current-status" class="hidden">{{user.Profile.relationshipStatus}}</div>
+            <label for="user[profile][relationshipStatus]">Status</label>
+            <select id="status" name="user[profile][relationshipStatus]" class="form-control form-control-regular"></select>
+          </div>
+        </li>
+
+        <li>
+          <div class="form-group">
+            <div id="current-height" class="hidden">{{user.Profile.height}}</div>
+            <label for="user[profile][height]">Height</label>
+            <select class="heights form-control form-control-regular" name="user[profile][height]"></select>
+          </div>
+        </li>
+
+        <li>
+          <div class="form-group">
+            <div id="current-body-type" class="hidden">{{user.Profile.bodyType}}</div>
+            <label for="user[profile][bodyType]">Body Type</label>
+            <select id="bodytype" name="user[profile][bodyType]" class="form-control form-control-regular"></select>
+          </div>
+        </li>
+
+        <li>
+          <div class="form-group">
+            <div id="currentSchool" class="hidden">{{user.Profile.school}}</div>
+            <label for="user[profile][school]">Graduated From</label>
+            <select id="school" name="user[profile][school]" class="form-control form-control-regular"></select>
+          </div>
+        </li>
+
+        <li>
+          <div class="form-group">
+            <div id="currentChildCount" class="hidden">{{user.Profile.children}}</div>
+            <label for="user[profile][children]"># of Children</label>
+            <select id="children" name="user[profile][children]" class="form-control form-control-regular"></select>
+          </div>
+        </li>
+
+        <li>
+          <div class="form-group">
+            <div id="currentInterest" class="hidden">{{user.Profile.interest}}</div>
+            <label for="user[profile][interest]">Interest</label>
+            <select id="interest" name="user[profile][interest]" class="form-control form-control-regular"></select>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </section>
+  <section class="col-sm-8 pull-left">
+    <h3>About Me</h3>
+    <textarea name="user[profile][about]" cols="60" rows="5" class="form-control form-control-regular">{{user.Profile.about}}</textarea>
+    <h3>Talents</h3>
+    <textarea name="user[profile][talents]" cols="60" rows="5" class="form-control form-control-regular">{{user.Profile.talents}}</textarea>
+    <h3>Favorite Things</h3>
+    <textarea name="user[profile][favoriteThings]" cols="60" rows="5" class="form-control form-control-regular">{{user.Profile.favoriteThings}}</textarea>
+    <h3>Why You Should Message Me</h3>
+    <textarea name="user[profile][messageReason]" cols="60" rows="5" class="form-control form-control-regular">{{user.Profile.messageReason}}</textarea>
+    <br>
+    <button type="submit" class="btn btn-primary clear">Save</button>
+  </section>
+</form>
+<script type="text/javascript" src="/formSetup.js"></script>

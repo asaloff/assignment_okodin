@@ -48,3 +48,8 @@ ul.basic-info {
 .tab-content {
   padding: 30px 0 20px 0;
 }
+
+.form-control.form-control-regular {
+  width: initial;
+  display: initial;
+}

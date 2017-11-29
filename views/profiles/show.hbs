@@ -20,6 +20,9 @@
   </section>
 </section>
 <section class="col-sm-8 pull-left">
+  {{#if isCurrentUser}}
+    <a href="/profiles/{{user.id}}/edit" class="btn btn-primary">Edit</a>
+  {{/if}}
   <h3>About Me</h3>
   <p>{{user.Profile.about}}</p>
   <h3>Talents</h3>
