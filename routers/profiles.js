@@ -79,7 +79,7 @@ const findUser = (id) => {
 
 const checkCurrentUser = (currentUserId, userId) => {
   var isCurrentUser;
-  currentUserId === userId ? isCurrentUser = true : isCurrentUser = false;
+  currentUserId == userId ? isCurrentUser = true : isCurrentUser = false;
   return isCurrentUser;
 };
 
