@@ -1,5 +1,5 @@
 const models = require('../models');
-const { User, Profile, Location } = models;
+const { User, Profile, Location, View } = models;
 const profileAttributes = require('../lib/profile-attributes');
 const heights = profileAttributes.heights();
 
@@ -140,6 +140,44 @@ SearchService.findProfiles = query => {
         let results = { profiles, queryString };
         resolve(results);
       });
+  });
+};
+
+SearchService.findUserWithViewInfo = (id) => {
+  return User.findOne({
+    attributes: [ 'id' ],
+    where: {
+      id: id
+    },
+    include: [{
+      model: User,
+      as: 'Viewed',
+      attributes: ['username'],
+      include: [{
+        attributes: [ 'age', 'img' ],
+        model: Profile,
+        include: [{
+          model: Location,
+          attributes: [ 'city' ]
+        }]
+      }]
+    }, {
+      model: User,
+      as: 'Views',
+      attributes: ['username'],
+      include: [{
+        model: Profile,
+        attributes: [ 'age', 'img' ],
+        include: [{
+          model: Location,
+          attributes: [ 'city' ]
+        }]
+      }]
+    }],
+    order: [
+      [ 'Views', View, 'date', 'DESC' ],
+      [ 'Viewed', View, 'date', 'DESC' ]
+    ]
   });
 };
 
