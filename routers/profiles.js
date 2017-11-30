@@ -3,6 +3,7 @@ const router = express.Router();
 const models = require('../models');
 const { User, Profile, Location } = models;
 const ProfileUpdater = require('../services/profile-update-service');
+const ViewHandler = require('../lib/viewHandler');
 
 router.get('/:id', (req, res) => {
     findUser(req.params.id)
@@ -10,7 +11,9 @@ router.get('/:id', (req, res) => {
       if (!user) throw "User not found";
 
       // check for current user
-      var isCurrentUser = checkCurrentUser(res.locals.currentUser.id, user.id);
+      var isCurrentUser = checkCurrentUser(req.cookies.currentUser, user.id);
+
+      ViewHandler.createView(req.cookies.currentUser, user.id);
 
       res.render('profiles/show', { user, isCurrentUser });
     })

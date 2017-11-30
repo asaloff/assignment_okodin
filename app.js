@@ -56,12 +56,14 @@ const signup = require('./routers/sign_up');
 const sessions = require('./routers/sessions');
 const profiles = require('./routers/profiles');
 const search = require('./routers/search');
+const views = require('./routers/views');
 
 app.use('/', signup);
 app.use('/sign_up', signup);
 app.use('/sessions', sessions);
 app.use('/profiles', profiles);
 app.use('/search', search);
+app.use('/views', views);
 
 
 // Template Engine

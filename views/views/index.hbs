@@ -1,0 +1,30 @@
+<h3 class="text-center">Views</h3>
+<div class="col-sm-10 col-sm-offset-1" id="search-nav">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#viewed">People You Viewed</a></li>
+    <li><a data-toggle="tab" href="#views">People Who Viewed You</a></li>
+  </ul>
+
+  <div class="tab-content col-sm-12">
+    <div id="viewed" class="tab-pane fade in active">
+      {{#each user.Views as |view|}}
+        <section class="clearfix">
+          <img class="profile-pic pull-left" src={{view.Profile.img}}>
+          <h3><u><a href="/profiles/{{view.id}}">{{view.username}}</a></u></h3>
+          <h4>{{view.Profile.age}} years old, lives in "{{view.Profile.Location.city}}"</h4>
+        </section>
+        <hr>
+      {{/each}}
+    </div>
+    <div id="views" class="tab-pane fade in">
+      {{#each user.Viewed as |view|}}
+        <section class="clearfix">
+          <img class="profile-pic pull-left" src={{view.Profile.img}}>
+          <h3><u><a href="/profiles/{{view.id}}">{{view.username}}</a></u></h3>
+          <h4>{{view.Profile.age}} years old, lives in "{{view.Profile.Location.city}}"</h4>
+        </section>
+        <hr>
+      {{/each}}
+    </div>
+  </div>
+</div>
