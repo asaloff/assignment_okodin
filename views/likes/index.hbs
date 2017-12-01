@@ -1,0 +1,55 @@
+<h3 class="text-center">Likes</h3>
+<div class="col-sm-10 col-sm-offset-1" id="search-nav">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#likes">People You Liked</a></li>
+    <li><a data-toggle="tab" href="#liked">People Who Liked You</a></li>
+
+    <li><a data-toggle="tab" href="#mutualLike">People You Liked Who Liked You</a></li>
+
+  </ul>
+
+  <div class="tab-content col-sm-12">
+    <div id="likes" class="tab-pane fade in active">
+      {{#if likes}}
+        {{#each likes as |like|}}
+          <section class="clearfix">
+            <img class="profile-pic pull-left" src={{like.Profile.img}}>
+            <h3><u><a href="/profiles/{{like.id}}">{{like.username}}</a></u></h3>
+            <h4>{{like.Profile.age}} years old, lives in "{{like.Profile.Location.city}}"</h4>
+          </section>
+          <hr>
+        {{/each}}
+      {{else}}
+        <p>You haven't liked anyone yet</p>
+      {{/if}}
+    </div>
+    <div id="liked" class="tab-pane fade in">
+      {{#if liked}}
+        {{#each liked as |like|}}
+          <section class="clearfix">
+            <img class="profile-pic pull-left" src={{like.Profile.img}}>
+            <h3><u><a href="/profiles/{{like.id}}">{{like.username}}</a></u></h3>
+            <h4>{{like.Profile.age}} years old, lives in "{{like.Profile.Location.city}}"</h4>
+          </section>
+          <hr>
+        {{/each}}
+      {{else}}
+        <p>You do not have any likes yet</p>
+      {{/if}}
+    </div>
+    <div id="mutualLike" class="tab-pane fade in">
+      {{#if mutualLikes}}
+        {{#each mutualLikes as |like|}}
+          <section class="clearfix">
+            <img class="profile-pic pull-left" src={{like.Profile.img}}>
+            <h3><u><a href="/profiles/{{like.id}}">{{like.username}}</a></u></h3>
+            <h4>{{like.Profile.age}} years old, lives in "{{like.Profile.Location.city}}"</h4>
+          </section>
+          <hr>
+        {{/each}}
+      {{else}}
+        <p>You do not have any mutual likes yet</p>
+      {{/if}}
+    </div>
+  </div>
+</div>

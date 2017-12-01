@@ -6,6 +6,10 @@
   font-size: 2em !important;
 }
 
+#username-nav-dropdown {
+  font-size: 18px !important;
+}
+
 .profile-pic {
   width: 150px;
 }

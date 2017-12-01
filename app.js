@@ -57,6 +57,7 @@ const sessions = require('./routers/sessions');
 const profiles = require('./routers/profiles');
 const search = require('./routers/search');
 const views = require('./routers/views');
+const likes = require('./routers/likes');
 
 app.use('/', signup);
 app.use('/sign_up', signup);
@@ -64,6 +65,7 @@ app.use('/sessions', sessions);
 app.use('/profiles', profiles);
 app.use('/search', search);
 app.use('/views', views);
+app.use('/likes', likes);
 
 
 // Template Engine
@@ -98,4 +100,9 @@ args.push(() => {
   console.log(`Listening: http://${ host }:${ port }`);
 });
 
-app.listen.apply(app, args);
+const server = app.listen.apply(app, args);
+
+// Web Socket
+const io = require('socket.io').listen(server);
+const socket = require('./services/socket_service');
+socket.setup(io);

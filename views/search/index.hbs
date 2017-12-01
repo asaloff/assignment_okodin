@@ -91,7 +91,7 @@
         <img src="{{profile.img}}" class="search-img">
         <div class="caption text-center">
           <h3><a href="/profiles/{{profile.User.id}}">{{profile.User.username}}</a></h3>
-          <a href="#">Like?</a>
+          <a href="#" class="like-link" id="{{profile.User.id}}"></a>
         </div>
       </div>
     </div>
@@ -100,3 +100,4 @@
   <h4>No Results - Use the form above to search</h4>
 {{/if}}
 <script type="text/javascript" src="/formSetup.js"></script>
+<script src="/socket_handler.js"></script>

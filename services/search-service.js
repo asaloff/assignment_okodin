@@ -181,6 +181,52 @@ SearchService.findUserWithViewInfo = (id) => {
   });
 };
 
+SearchService.findUserWithLikeInfo = (id) => {
+  return User.findOne({
+    attributes: [ 'id' ],
+    where: {
+      id: id
+    },
+    include: [{
+      model: User,
+      as: 'liked',
+      attributes: ['username'],
+      include: [{
+        attributes: [ 'age', 'img' ],
+        model: Profile,
+        include: [{
+          model: Location,
+          attributes: [ 'city' ]
+        }]
+      }]
+    }, {
+      model: User,
+      as: 'likes',
+      attributes: ['username'],
+      include: [{
+        model: Profile,
+        attributes: [ 'age', 'img' ],
+        include: [{
+          model: Location,
+          attributes: [ 'city' ]
+        }]
+      }]
+    }]
+  });
+};
+
+SearchService.findMutualLikes = (likes, liked) => {
+  return new Promise((resolve, reject) => {
+    let results = [];
+    for (let like of likes) {
+      for (let l of liked) {
+        if (like.Like.LikerId == l.Like.LikedId && like.Like.LikedId == l.Like.LikerId) results.push(l);
+      }
+    }
+    resolve(results);
+  });
+};
+
 const emptyQuery = (query) => {
   if (query === { "profile": { "minAge": "", "maxAge": "", "location": { "distance": "" } } }) {
     return true;

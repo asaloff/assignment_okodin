@@ -5,12 +5,11 @@
       {{#unless notLoggedIn}}
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{currentUser.username}} <i class="fa fa-user" aria-hidden="true"></i><span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="username-nav-dropdown">{{currentUser.username}} <i class="fa fa-user" aria-hidden="true"></i><span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="/profiles/{{currentUser.id}}">Profile</a></li>
               <li><a href="/search">Search</a></li>
-              <li><a href="#">Messages</a></li>
-              <li><a href="#">Likes</a></li>
+              <li><a href="/likes">Likes</a></li>
               <li><a href="/views">Views</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="/sessions?_method=delete">Logout</a></li>

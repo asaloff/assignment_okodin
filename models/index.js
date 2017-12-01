@@ -20,6 +20,7 @@ db.User = require('./user')(sequelize, Sequelize);
 db.Location = require('./location')(sequelize, Sequelize);
 db.Profile = require('./profile')(sequelize, Sequelize);
 db.View = require('./view')(sequelize, Sequelize);
+db.Like = require('./like')(sequelize, Sequelize);
 
 
 // Relations
@@ -39,6 +40,18 @@ db.User.belongsToMany(db.User, {
   through: db.View,
   as: 'Viewed',
   foreignKey: 'ViewedId'
+});
+
+db.User.belongsToMany(db.User, {
+  through: db.Like,
+  as: 'likes',
+  foreignKey: 'LikerId'
+});
+
+db.User.belongsToMany(db.User, {
+  through: db.Like,
+  as: 'liked',
+  foreignKey: 'LikedId'
 });
 
 

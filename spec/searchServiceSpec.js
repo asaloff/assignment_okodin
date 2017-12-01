@@ -2,28 +2,28 @@ process.env.NODE_ENV = 'test';
 require('./config');
 const SearchService = require('../services/search-service');
 const models = require('../models');
-const { User, Profile, Location } = models;
+const { User, Profile, Location, Like } = models;
 const timeHelper = require('../helpers/timeHelper');
 
 describe("SearchService", () => {
-  beforeEach(() => {
-    query = {
-      "profile": {
-        "minAge": "",
-        "maxAge": "",
-        "location": {
-          "distance": ""
-        }
-      }
-    };
+  beforeEach(async (done) => {
+    user1 = await User.create({ username: 'bob', email: 'bob@example.com' });
+    user2 = await User.create({ username: 'frank', email: 'frank@example.com' });
+    user3 = await User.create({ username: 'sarah', email: 'sarah@example.com' });
+    done();
   });
 
   describe(".findProfiles", () => {
-    beforeEach(async (done) => {
-      user1 = await User.create({ username: 'bob', email: 'bob@example.com' });
-      user2 = await User.create({ username: 'frank', email: 'frank@example.com' });
-      user3 = await User.create({ username: 'sarah', email: 'sarah@example.com' });
-      done();
+    beforeEach(() => {
+      query = {
+        "profile": {
+          "minAge": "",
+          "maxAge": "",
+          "location": {
+            "distance": ""
+          }
+        }
+      };
     });
 
     it("finds all profiles with no query", async (done) => {
@@ -342,6 +342,59 @@ describe("SearchService", () => {
             done();
           });
       });
+    });
+  });
+
+  describe('.findMutualLikes', () => {
+    it('returns the likes that also liked back', async (done) => {
+      let like1 = await Like.create({ LikerId: user1.id, LikedId: user2.id });
+      let like2 = await Like.create({ LikerId: user2.id, LikedId: user1.id });
+      let likes = [ { username: user1.username, Profile: {}, Like: like1 } ];
+      let liked = [ { username: user2.username, Profile: {}, Like: like2 } ];
+
+      SearchService.findMutualLikes(likes, liked)
+        .then(mutualLikes => {
+          expect(mutualLikes.length).toEqual(1);
+          expect(mutualLikes[0].username).toEqual(user2.username);
+          done();
+        })
+        .catch(e => {
+          done.fail(e);
+        });
+    });
+
+    it('does not return likes that did not like back', async (done) => {
+      let like1 = await Like.create({ LikerId: user1.id, LikedId: user2.id });
+      let like2 = await Like.create({ LikerId: user1.id, LikedId: user3.id });
+
+      let likes = [ { username: user1.username, Profile: {}, Like: like1 } ];
+      let liked = [ { username: user3.username, Profile: {}, Like: like2 } ];
+
+      SearchService.findMutualLikes(likes, liked)
+        .then(mutualLikes => {
+          expect(mutualLikes.length).toEqual(0);
+          done();
+        })
+        .catch(e => {
+          done.fail(e);
+        });
+    });
+
+    it('does not return people that liked but were not liked back', async (done) => {
+      let like1 = await Like.create({ LikerId: user2.id, LikedId: user1.id });
+      let like2 = await Like.create({ LikerId: user3.id, LikedId: user1.id });
+
+      let likes = [ { username: user2.username, Profile: {}, Like: like1 } ];
+      let liked = [ { username: user3.username, Profile: {}, Like: like2 } ];
+
+      SearchService.findMutualLikes(likes, liked)
+        .then(mutualLikes => {
+          expect(mutualLikes.length).toEqual(0);
+          done();
+        })
+        .catch(e => {
+          done.fail(e);
+        });
     });
   });
 });
