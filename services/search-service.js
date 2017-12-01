@@ -31,7 +31,7 @@ SearchService.findProfiles = query => {
 
     // gender query
     let gender = query.profile.gender;
-    if (gender && gender !== '') {
+    if (gender) {
       profileQuery.where.gender = gender;
       queryString += ` a '${ gender }'`;
     }
@@ -67,14 +67,14 @@ SearchService.findProfiles = query => {
 
     // bodyType query
     let bodyType = query.profile.bodyType;
-    if (bodyType && bodyType !== '') {
+    if (bodyType) {
       profileQuery.where.bodyType = bodyType;
       queryString += ` body type: '${ bodyType }'`;
     }
 
     // school query
     let school = query.profile.school;
-    if (school && school !== '') {
+    if (school) {
       profileQuery.where.school = school;
       queryString += ` graduated from: '${ school }'`;
     }
@@ -89,7 +89,7 @@ SearchService.findProfiles = query => {
 
     // interest query
     let interest = query.profile.interest;
-    if (interest && interest !== '') {
+    if (interest) {
       profileQuery.where.interest = interest;
       queryString += ` interested in: '${ interest }'`;
     }
